@@ -1,24 +1,21 @@
-# Ignore JupyterLab related files
-demos/Weeks1-2/aoti_env/share/jupyter/lab/static/
-demos/Weeks1-2/aoti_env/share/jupyter/nbconvert/
-demos/Weeks1-2/aoti_env/share/jupyter/nbextensions/
-demos/Weeks1-2/aoti_env/share/python-wheels/
-
-# Ignore the entire virtual environment directory
+# Virtual Environment
 demos/Weeks1-2/aoti_env/
 
-# Ignore CMake build files
+# Build directories
+build/
+**/build/
+demos/**/build/
+
+# CMake files
 CMakeCache.txt
+**/CMakeCache.txt
 CMakeFiles/
-Makefile
+**/CMakeFiles/
 cmake_install.cmake
+**/cmake_install.cmake
+Makefile
+**/Makefile
 
-# Ignore other intermediate build files
-*.o
-*.so
-*.cubin
-*.pyc
-*.pyo
-
-# Ignore any temp or log files
-*.log
+# Keep demos directory
+!demos/
+!demos/Weeks1-2/
