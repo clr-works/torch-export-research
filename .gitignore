@@ -1,0 +1,21 @@
+# Virtual Environment
+demos/Weeks1-2/aoti_env/
+
+# Build directories
+build/
+**/build/
+demos/**/build/
+
+# CMake files
+CMakeCache.txt
+**/CMakeCache.txt
+CMakeFiles/
+**/CMakeFiles/
+cmake_install.cmake
+**/cmake_install.cmake
+Makefile
+**/Makefile
+
+# Keep demos directory
+!demos/
+!demos/Weeks1-2/
