@@ -1,0 +1,6 @@
+{
+    "models": {
+        "llama-7b": "/home/corina_rios/.cache/huggingface/hub/models--huggyllama--llama-7b/snapshots/4782ad278652c7c71b72204d462d6d01eaaf7549",
+        "granite-2b": "/home/corina_rios/.cache/huggingface/hub/models--ibm-granite--granite-3.0-2b-instruct/snapshots/69e41fe735f54cec1792de2ac4f124b6cc84638f"
+    }
+}
