@@ -68,16 +68,3 @@ All files except the Tensor files (`BalancedTParallel.py` and `TensorParallelBlu
 python inject_weights_dynamically.py --model llama-7b --num_samples 100
 ```
 
-The scripts in this repository provide various functionalities:
-- `analyze_models.py`: Analyzes the graph node operations in exported models.
-- `baseline_static_profiling.py`: Performs static profiling of models for export and inference.
-- `dynamic_seq_length.py`: Performs export and inference with dynamic sequence lengths.
-- `export_and_compile.py`: Exports and compiles models.
-- `inference_utils.py`: Provides utility functions for performing inference.
-- `inject_weights_dynamically.py`: Injects random weights into the model dynamically.
-- `main_benchmark.py`: Benchmarks the torch.export of micro LLaMA and evaluates compiled vs uncompiled models.
-- `main_tests.py`: Runs tests to evaluate graph breaks.
-- `model_setup.py`: Provides setup and configuration for the models.
-- `plotting.py`: Contains functions for plotting the results.
-- `test_cases.py`: Defines test cases for the models.
-- `tester.py`: Implements a tester class for running tests on the models.
