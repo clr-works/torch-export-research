@@ -38,10 +38,8 @@ This script exports a model, injects random weights, and runs inference. The pat
        "models": {
            "llama-7b": "/path/to/llama-7b",
            "granite-2b": "/path/to/granite-2b"
-       },
-       "default_model": "granite-2b",
-       "samples_to_process": 100
-   }
+       }
+       
 
 All files except the Tensor files (`BalancedTParallel.py` and `TensorParallelBluePrint.py`) run with the following logic:
 
