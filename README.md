@@ -54,17 +54,14 @@ This script exports a model, injects random weights, and runs inference. The pat
 
 ### **Steps to Run**
 1. **Update `config.json`**:
-   Edit the `config.json` file with the paths to your models and default parameters:
+   Edit the `config.json` file with the paths to the models and default parameters:
    ```json
    {
        "models": {
            "llama-7b": "/path/to/llama-7b",
            "granite-2b": "/path/to/granite-2b"
-       },
-       "default_model": "granite-2b",
-       "samples_to_process": 100
-   }
-   ```
+       }
+       
 
 All files except the Tensor files (`BalancedTParallel.py` and `TensorParallelBluePrint.py`) run with the following logic:
 ```bash
