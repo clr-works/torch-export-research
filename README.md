@@ -1,5 +1,3 @@
-Thank you for the clarification. Here's the updated README with the additional information you provided:
-
 # **Model Profiling and Analysis**
 
 This repository provides tools and scripts for profiling, analyzing, and exporting large language models (LLMs) like **LLaMA** and **Granite**. The tools are designed for performance benchmarking and experimentation with model export, inference, and weight injection using PyTorch's advanced features.
