@@ -46,7 +46,7 @@ python3 main_benchmark.py
 ```
 
 ### **Injecting Random Weights Dynamically**
-This script exports a model, injects random weights, and runs inference. The paths and parameters are managed using `config.json`.
+This script exports a model, injects random weights, and runs inference. The paths are managed using `config.json`.
 
 ---
 
