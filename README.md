@@ -66,3 +66,5 @@ All files except the Tensor files (`BalancedTParallel.py` and `TensorParallelBlu
 python inject_weights_dynamically.py --model llama-7b --num_samples 100
 ```
 
+## Results
+In the resuls folder there are .csv files with all experiments that have been run. Additionally, some visualizations and the .so file.
