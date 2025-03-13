@@ -1,6 +1,11 @@
-# **Model Profiling and Analysis**
+# **Profiling and Analysis**
 
-This repository provides tools and scripts for profiling, analyzing, and exporting large language models (LLMs) like **LLaMA** and **Granite**. The tools are designed for performance benchmarking and experimentation with model export, inference, and weight injection using PyTorch's advanced features.
+This project explores the use of torch.export() and AOTInductor to pre-compile models for
+faster inference. The goal is to test whether model weights can be separated from runtime
+in compiled models, improving the deployment flexibility of IBM Foundation Model Stack
+(FMS) models. Although the project is research-focused, the separation of weights and
+runtime could unlock valuable insights for AIU applications. Regular GPUs will be suCicient
+for experimentation.
 
 ---
 
