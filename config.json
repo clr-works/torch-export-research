@@ -1,0 +1,7 @@
+{
+    "models": {
+      "gpt2": "gpt2",
+      "my-local-model": "/path/to/local/model/folder",
+      "opt-125m": "facebook/opt-125m"
+    }
+  } 
