@@ -1,0 +1,47 @@
+{
+  "without_ewc": [
+    {
+      "task": "shakespeare",
+      "loss_before": 9.28504457473755,
+      "loss_after": 0.08374848067760468,
+      "export_time_before": 4.399915456771851,
+      "export_time_after": 4.2095420360565186
+    },
+    {
+      "task": "python",
+      "loss_before": 0.5826715901494026,
+      "loss_after": 0.01615301922429353,
+      "export_time_before": 4.0682501792907715,
+      "export_time_after": 4.203818321228027
+    },
+    {
+      "task": "medical",
+      "loss_before": 0.8664073497056961,
+      "loss_after": 0.008818362926467671,
+      "export_time_before": 4.029083728790283,
+      "export_time_after": 4.234328985214233
+    }
+  ],
+  "with_ewc": [
+    {
+      "task": "shakespeare",
+      "loss_before": 0.26709783971309664,
+      "loss_after": 0.0019096508520306088,
+      "export_time": 4.168524265289307
+    },
+    {
+      "task": "python",
+      "loss_before": 0.41940453127026556,
+      "loss_after": 0.0005260021145659266,
+      "export_time": 4.024643421173096
+    },
+    {
+      "task": "medical",
+      "loss_before": 0.22741268146492075,
+      "loss_after": 0.0012816035689525052,
+      "export_time": 4.2623021602630615
+    }
+  ],
+  "export_times": [],
+  "model_name": "gpt2"
+}
