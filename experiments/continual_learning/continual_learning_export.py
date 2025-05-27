@@ -42,6 +42,9 @@ class ContinualLearningExport:
         # Store initial weights for EWC
         self.initial_params = {name: param.clone() for name, param in self.model.named_parameters()}
         
+        # Store the initial state dict (handles weight sharing properly)
+        self.initial_state_dict = self.model.state_dict()
+        
     def create_task_data(self, task_type: str, num_samples: int = 100) -> List[str]:
         """Create synthetic task-specific data"""
         if task_type == "shakespeare":
@@ -209,7 +212,8 @@ class ContinualLearningExport:
         
         # Experiment 1: Without EWC (catastrophic forgetting)
         print("--- Experiment 1: Without EWC ---")
-        self.model.load_state_dict({name: param.clone() for name, param in self.initial_params.items()})
+        # Reset to initial state using state_dict
+        self.model.load_state_dict(self.initial_state_dict)
         
         all_task_data = {}
         for i, task in enumerate(tasks):
@@ -254,7 +258,8 @@ class ContinualLearningExport:
         
         # Experiment 2: With EWC (mitigate forgetting)
         print("\n--- Experiment 2: With EWC ---")
-        self.model.load_state_dict({name: param.clone() for name, param in self.initial_params.items()})
+        # Reset to initial state using state_dict
+        self.model.load_state_dict(self.initial_state_dict)
         
         fisher_info = None
         for i, task in enumerate(tasks):
@@ -352,7 +357,7 @@ class ContinualLearningExport:
 
 def main():
     """Run the continual learning export experiment"""
-    # You can change the model here
+    
     experiment = ContinualLearningExport(model_name="gpt2")
     results = experiment.run_experiment()
     
