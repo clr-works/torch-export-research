@@ -47,13 +47,6 @@ torch-export-research/
 
 ## 🚀 Quick Start
 
-### Installation
-```bash
-git clone https://github.com/yourusername/torch-export-research
-cd torch-export-research
-pip install -r requirements.txt
-```
-
 ### Run Benchmarks
 ```bash
 # Single model benchmark
@@ -104,11 +97,11 @@ python experiments/continual_learning/continual_learning_export.py
 - Demonstrates export stability with evolving weights
 - Compares catastrophic forgetting vs. EWC protection
 
-### Model Surgery (Planned)
+### Model Surgery (Ongoing)
 - Runtime layer replacement
 - Architecture morphing without re-export
 
-### Distributed Weights (Planned)
+### Distributed Weights (Ongoing)
 - Streaming weights from remote storage
 - Partial weight updates for large models
 
@@ -122,28 +115,6 @@ Benchmark results are saved as CSVs with:
 
 Visualizations available in Jupyter notebooks under `notebooks/`
 
-## 🔧 Extending the Framework
-
-### Add New Benchmark
-```python
-from benchmark_framework import BenchmarkBase
-
-class MyBenchmark(BenchmarkBase):
-    def run_experiment(self, sample_input):
-        # Your profiling logic
-        pass
-```
-
-### Add New Experiment
-```python
-from experiments.base_experiment import ExperimentBase
-
-class MyExperiment(ExperimentBase):
-    def run(self):
-        # Your proof of concept
-        pass
-```
-
 ## 🤝 Contributing
 
 We welcome contributions! Areas of interest:
@@ -151,18 +122,6 @@ We welcome contributions! Areas of interest:
 - Optimizations for specific model architectures
 - New proof-of-concept experiments
 - Performance improvements
-
-## 📚 Citation
-
-If you use this work in your research:
-```bibtex
-@software{torch_export_research,
-  title={Torch Export Research: Decoupling Weights from Runtime},
-  author={Your Name},
-  year={2024},
-  url={https://github.com/yourusername/torch-export-research}
-}
-```
 
 ## 📄 License
 
