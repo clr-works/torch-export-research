@@ -1,7 +1,7 @@
 {
-    "models": {
+  "models": {
+      "TinyLlama": "TinyLlama/TinyLlama-1.1B-Chat-v1.0",
       "gpt2": "gpt2",
-      "my-local-model": "/path/to/local/model/folder",
-      "opt-125m": "facebook/opt-125m"
-    }
-  } 
+      "gpt2-medium": "gpt2-medium"
+  }
+}

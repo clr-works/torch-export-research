@@ -19,15 +19,23 @@ class BenchmarkResult:
     max_difference: Optional[float] = None
     metadata: Optional[Dict[str, Any]] = None
 
+# ModelWrapper for static
 class ModelWrapper(torch.nn.Module):
-    """Wrapper to ensure consistent export interface"""
     def __init__(self, model):
         super().__init__()
         self.model = model
     
     def forward(self, input_ids, attention_mask):
-        # ✅ FIX: Accept input_ids and attention_mask as separate arguments
-        # This matches the torch.export.export args structure
+        return self.model(input_ids=input_ids, attention_mask=attention_mask)
+
+# Add new wrapper for dynamic
+class DynamicExportWrapper(torch.nn.Module):
+    def __init__(self, model):
+        super().__init__()
+        self.model = model
+    
+    def forward(self, inputs):
+        input_ids, attention_mask = inputs
         return self.model(input_ids=input_ids, attention_mask=attention_mask).logits
 
 class BenchmarkBase(ABC):
@@ -38,6 +46,7 @@ class BenchmarkBase(ABC):
         self.device = torch.device(device if torch.cuda.is_available() else "cpu")
         self.model = None
         self.tokenizer = None
+        self.uses_dynamic_wrapper = False
 
     @abstractmethod
     def run_experiment(self, sample_input: Tuple) -> BenchmarkResult:
@@ -75,16 +84,23 @@ class BenchmarkBase(ABC):
 
     def run_inference(self, exported_model, sample_input: Tuple) -> Tuple[Any, float]:
         """Run inference with exported model"""
-        # ✅ FIX: Extract input_ids and attention_mask consistently
         if len(sample_input) >= 2:
             input_ids, attention_mask = sample_input[0], sample_input[1]
         else:
             raise ValueError(f"Expected at least 2 elements in sample_input, got {len(sample_input)}")
         
-        return self.time_operation(
-            exported_model.module(),
-            input_ids, attention_mask  # Pass as separate args, not tuple
-        )
+        if hasattr(self, 'uses_dynamic_wrapper') and self.uses_dynamic_wrapper:
+            # For dynamic exports, call the exported model directly (no .module())
+            return self.time_operation(
+                exported_model.module(),
+                input_ids, attention_mask
+            )
+        else:
+            # Static export - use module() and pass as separate args
+            return self.time_operation(
+                exported_model.module(),
+                input_ids, attention_mask
+            )
    
     def save_results(self, results: List[BenchmarkResult], output_dir: str = "results"):
         """Save results to CSV"""

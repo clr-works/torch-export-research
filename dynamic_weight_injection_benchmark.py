@@ -5,9 +5,8 @@ import torch
 from typing import Tuple, List
 from torch.export import Dim
 
-# Define the constrained dimension
-_seq_len = Dim('_seq_len', max=64)
-seq_len = 8 * _seq_len
+_seq_len = Dim('_seq_len', min=16, max=128)
+seq_len = 4 * _seq_len  # Gives you 64, 128, 256, 512
 
 class DynamicWeightInjectionBenchmark(DynamicExportBenchmark):
     """Test weight injection with dynamic shape models"""

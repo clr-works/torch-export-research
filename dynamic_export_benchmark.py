@@ -1,18 +1,14 @@
 # dynamic_export_benchmark.py
-from benchmark_framework import BenchmarkBase, BenchmarkResult
+from benchmark_framework import BenchmarkBase, BenchmarkResult, ModelWrapper, DynamicExportWrapper
 import torch
 from torch.export import Dim, export
 from typing import Tuple, Optional, List
 
-# Define the constrained dimension
-_seq_len = Dim('_seq_len', max=64)
-seq_len = 8 * _seq_len
-
 class DynamicExportBenchmark(BenchmarkBase):
     """Benchmark for dynamic shape export and inference"""
     
-    def __init__(self, model_name: str, model_path: str, 
-                 min_seq_len: int = 1, max_seq_len: int = 512, 
+    def __init__(self, model_name: str, model_path: str,
+                 min_seq_len: int = 1, max_seq_len: int = 512,
                  test_seq_lengths: Optional[List[int]] = None,
                  device: str = "cuda"):
         super().__init__(model_name, model_path, device)
@@ -20,39 +16,35 @@ class DynamicExportBenchmark(BenchmarkBase):
         self.max_seq_len = max_seq_len
         self.test_seq_lengths = test_seq_lengths or [8, 32, 64, 128, 256]
         self.exported_model = None
+
     
     def export_model_dynamic(self, sample_input: Tuple):
         """Export model with dynamic sequence length support"""
-        class ExportWrapper(torch.nn.Module):
-            def __init__(self, model):
-                super().__init__()
-                self.model = model
-            
-            def forward(self, input_ids, attention_mask):
-                return self.model(input_ids=input_ids, attention_mask=attention_mask).logits
+        # Use the DynamicExportWrapper from benchmark_framework
+        self.uses_dynamic_wrapper = True
+        wrapped_model = DynamicExportWrapper(self.model)
         
-        # Define dynamic dimension
-        seq_len_dim = Dim("seq_len", min=self.min_seq_len, max=self.max_seq_len)
+        if len(sample_input) >= 2:
+            input_ids, attention_mask = sample_input[0], sample_input[1]
+        else:
+            raise ValueError(f"Expected at least 2 elements in sample_input, got {len(sample_input)}")
         
-        # Extract sample inputs
-        input_ids, attention_mask = sample_input[0], sample_input[1]
+        # Set up dynamic shapes
+        _seq_len = Dim('_seq_len', min=1, max=64)
+        seq_len_dim = 8 * _seq_len
         
-        # Define dynamic shapes for both inputs
-        dynamic_shapes = {
-            "input_ids": {1: seq_len_dim},
-            "attention_mask": {1: seq_len_dim}
-        }
-        
-        # Export with dynamic shapes
-        wrapped_model = ExportWrapper(self.model)
-        exported_program, export_time = self.time_operation(
-            export,
-            wrapped_model,
-            args=(input_ids, attention_mask),
-            dynamic_shapes=dynamic_shapes
+        dynamic_shapes = (
+            {1: seq_len_dim},  # For input_ids
+            {1: seq_len_dim},  # For attention_mask
         )
         
-        return exported_program, export_time
+        # Export with tuple structure (matching the working code)
+        return self.time_operation(
+            torch.export.export,
+            wrapped_model,
+            args=((input_ids, attention_mask),),  # Tuple as single arg
+            dynamic_shapes=(dynamic_shapes,)  # Wrapped in tuple
+        )
     
     def test_multiple_lengths(self, exported_model):
         """Test exported model with different sequence lengths"""
@@ -78,9 +70,10 @@ class DynamicExportBenchmark(BenchmarkBase):
             
             # Run inference
             try:
+                # Use .module() as the error suggests, but with tuple input
                 output, inference_time = self.time_operation(
-                    exported_model.module(),
-                    input_ids, attention_mask
+                    exported_model.module(),  # Use .module()
+                    (input_ids, attention_mask)  # Pass as tuple for DynamicExportWrapper
                 )
                 
                 results.append({
